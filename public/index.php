@@ -12,7 +12,7 @@
     }
     
     session_start();
-    $objMysqlConnector = new Components\MysqlConnector($config);
+    $objMysqlConnector = Components\MysqlConnector::get($config);
     $objController = new Controllers\IndexController($config);
     
     try {

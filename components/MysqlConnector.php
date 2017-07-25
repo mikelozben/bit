@@ -10,7 +10,7 @@ class MysqlConnector
      * Singletone instance
      * @var MysqlConnector|null
      */
-    public static $instance = null;
+    private static $instance = null;
     
     /**
      * Database connection
@@ -24,7 +24,7 @@ class MysqlConnector
      * @param array $config
      * @throws \Exception
      */
-    public function __construct(array $config) {
+    private function __construct(array $config) {
         $this->db = mysqli_connect(
             $config['db']['host'], 
             $config['db']['username'], 
@@ -37,7 +37,7 @@ class MysqlConnector
             throw new \Exception('Database connection failed');
         }
 
-        MysqlConnector::$instance = $this;
+        self::$instance = $this;
     }
 
     /**
@@ -48,10 +48,10 @@ class MysqlConnector
      */
     public static function get(array $config = [])
     {
-        if ( null === MysqlConnector::$instance ) {
-            MysqlConnector::$instance = new MysqlConnector($config);
+        if ( null === self::$instance ) {
+            MysqlConnector::$instance = new self($config);
         }
 
-        return MysqlConnector::$instance;
+        return self::$instance;
     }
 }

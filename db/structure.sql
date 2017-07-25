@@ -50,8 +50,6 @@ BEGIN
     
 
     START TRANSACTION;
-        SELECT `username` FROM `user` WHERE `id`=req_user_id FOR UPDATE;
-
         IF EXISTS (SELECT `username` FROM `user` WHERE `id`=req_user_id FOR UPDATE) THEN
             SELECT `balance` INTO current_balance FROM `amount_transaction` WHERE `user_id`=req_user_id ORDER BY `updated_at` DESC LIMIT 1;
             IF (current_balance IS NULL) THEN

@@ -89,15 +89,20 @@ class User extends BaseUser
      */
     public static function loadByUsername($username)
     {
-        $connection = MysqlConnector::get();
-        $sql = "SELECT * FROM `" . static::$tableName . "` WHERE (`username`='{$username}') LIMIT 1";
-        if ($result = $connection->db->query($sql)) {
-            if ($row = $result->fetch_assoc()) {
-                return User::createFromRow($row);
+        if ( is_string($username) ) {
+            $connection = MysqlConnector::get();
+
+            $username = mysqli_real_escape_string($connection->db, $username);
+            $sql = "SELECT * FROM `" . static::$tableName . "` WHERE (`username`='{$username}') LIMIT 1";
+            if ($result = $connection->db->query($sql)) {
+                if ($row = $result->fetch_assoc()) {
+                    return User::createFromRow($row);
+                }
+            } else {
+                throw new \Exception($connection->db->error);
             }
-        } else {
-            throw new \Exception($connection->db->error);
         }
+        
         return null;
     }
     

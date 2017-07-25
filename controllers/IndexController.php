@@ -94,8 +94,9 @@ class IndexController extends BaseController
         }
         session_write_close();
         
-        return $this->renderView('login', array_merge($this->viewCommonData + [
-            'isSigned' => $isSigned
+        return $this->renderView('login', array_merge($this->viewCommonData, [
+            'isSigned' => $isSigned,
+            'errorMsg' => $errorMsg
         ]));
     }
     
@@ -143,7 +144,7 @@ class IndexController extends BaseController
         }
         session_write_close();
         
-        return $this->renderView('account', array_merge($this->viewCommonData + [
+        return $this->renderView('account', array_merge($this->viewCommonData, [
             'username'          => $this->user->username,
             'currentBalance'    => $currentBalance,
             'errorMsg'          => $errorMsg
